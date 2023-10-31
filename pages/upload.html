@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Homepage</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="upload.css">
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+
+</head>
+
+<body>
+
+    <div class="wait">
+        please wait....
+    </div>
+    <div>
+        <button class="enableEthereumButton">Enable Ethereum</button>
+        <h2>Account: <span class="showAccount"></span></h2>
+    </div>
+    
+
+    <div class="container">
+        <div class="wrapper">
+           <div class="image">
+              <img src="" alt="" id="img">
+           </div>
+           <div class="content">
+              <div class="icon">
+                 <i class="fas fa-cloud-upload-alt"></i>
+              </div>
+              <div class="text">
+                 No file chosen, yet!
+              </div>
+           </div>
+           <div id="cancel-btn">
+              <i class="fas fa-times"></i>
+           </div>
+           <div class="file-name">
+              File name here
+           </div>
+        </div>
+        <button onclick="defaultBtnActive()" id="custom-btn">Upload your image "front"</button>
+        <input id="default-btn" type="file" hidden>
+        
+        
+     </div>
+     <div class="container">
+       <div class="wrapper1">
+          <div class="image">
+             <img src="" alt="" id="img1">
+          </div>
+          <div class="content">
+             <div class="icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+             </div>
+             <div class="text">
+                No file chosen, yet!
+             </div>
+          </div>
+          <div id="cancel-btn1">
+             <i class="fas fa-times"></i>
+          </div>
+          <div class="file-name1">
+             File name here
+          </div>
+       </div>
+       <button onclick="defaultBtnActive1()" id="custom-btn1">Upload your image "right side"</button>
+       <input id="default-btn1" type="file" hidden>
+       
+    </div>
+    <div class="container">
+       <div class="wrapper2">
+          <div class="image">
+             <img src="" alt="" id="img2">
+          </div>
+          <div class="content">
+             <div class="icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+             </div>
+             <div class="text">
+                No file chosen, yet!
+             </div>
+          </div>
+          <div id="cancel-btn2">
+             <i class="fas fa-times"></i>
+          </div>
+          <div class="file-name2">
+             File name here
+          </div>
+       </div>
+       <button onclick="defaultBtnActive2()" id="custom-btn2">Upload your image "left side"</button>
+       <input id="default-btn2" type="file" hidden>
+       
+          
+      
+       
+    </div>
+
+
+    <div>
+      <button class="submit" >Register</button>
+      <h2><span class="message"></span></h2>
+    </div>
+    
+
+
+
+    <script>
+
+
+
+      const projectId = "2EPjKdx7ZlitAvPqRAeGsFFiChv";
+      const projectSecretKey = "d80bed216d87910173a55279dfe76710";
+      const auth = "Basic " + btoa(projectId + ":" + projectSecretKey);
+
+        async function createNode() {
+        const node = await Ipfs.create(
+          {
+            host: 'ipfs.infura.io',
+            port: 5001,
+            protocol: 'https',
+            headers: {
+                authorization: auth,
+            },
+          }
+        );
+
+        window.node = node;
+        console.log("created");
+        wait.style.display="none";
+        customBtn.style.display="block";
+        customBtn1.style.display="block";
+        customBtn2.style.display="block";
+
+
+      }
+
+
+       createNode();
+        var hashes=[];
+        var account;
+        var flag1=false;
+        var flag2=false;
+        var flag3=false;
+        var flag4=false;
+
+const ethereumButton = document.querySelector('.enableEthereumButton');
+const showAccount = document.querySelector('.showAccount');
+
+ethereumButton.addEventListener('click', () => {
+  getAccount();
+});
+
+async function getAccount() {
+  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+  account = accounts[0];
+  showAccount.innerHTML = account;
+  flag4=true;
+}
+
+
+
+
+       
+      
+
+const message=document.querySelector('.message');    
+const wait = document.querySelector('.wait');
+const wrapper = document.querySelector(".wrapper");
+const wrapper1 = document.querySelector(".wrapper1");
+const wrapper2 = document.querySelector(".wrapper2");
+const fileName = document.querySelector(".file-name");
+const fileName1 = document.querySelector(".file-name1");
+const fileName2 = document.querySelector(".file-name2");
+const defaultBtn = document.querySelector("#default-btn");
+const defaultBtn1 = document.querySelector("#default-btn1");
+const defaultBtn2 = document.querySelector("#default-btn2");
+const customBtn = document.querySelector("#custom-btn");
+const customBtn1 = document.querySelector("#custom-btn1");
+const customBtn2 = document.querySelector("#custom-btn2");
+const cancelBtn = document.querySelector("#cancel-btn i");
+const cancelBtn1 = document.querySelector("#cancel-btn1 i");
+const cancelBtn2 = document.querySelector("#cancel-btn2 i");
+const img = document.querySelector("#img");
+const img1 = document.querySelector("#img1");
+const img2 = document.querySelector("#img2");
+const submit=document.querySelector(".submit");
+customBtn.style.display="none";
+customBtn1.style.display="none";
+customBtn2.style.display="none";
+
+let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+
+
+
+function defaultBtnActive(){
+  defaultBtn.click();
+}
+function defaultBtnActive1(){
+  defaultBtn1.click();
+}
+function defaultBtnActive2(){
+  defaultBtn2.click();
+}
+
+
+defaultBtn.addEventListener("change", function(){
+  const file = this.files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload =async function(){
+      const result = reader.result;
+      img.src = result;
+      wrapper.classList.add("active");
+      const res = await window.node.add(file);
+      console.log("https://skywalker.infura-ipfs.io/ipfs/" + res.path);
+      hashes[0]="https://skywalker.infura-ipfs.io/ipfs/" + res.path;
+      flag1=true;
+      
+    }
+    cancelBtn.addEventListener("click", function(){
+      img.src = "";
+      wrapper.classList.remove("active");
+    })
+    reader.readAsDataURL(file);
+  }
+  if(this.value){
+    let valueStore = this.value.match(regExp);
+    fileName.textContent = valueStore;
+  }
+});
+defaultBtn1.addEventListener("change", function(){
+  console.log(this.files.length);
+  const file = this.files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload = async function(){
+      const result = reader.result;
+      img1.src = result;
+      wrapper1.classList.add("active");
+      const res = await window.node.add(file);
+      console.log("https://skywalker.infura-ipfs.io/ipfs/" + res.path);
+      hashes[1]="https://skywalker.infura-ipfs.io/ipfs/" + res.path;
+      flag2=true;
+
+    }
+    cancelBtn1.addEventListener("click", function(){
+      img1.src = "";
+      wrapper1.classList.remove("active");
+    })
+    reader.readAsDataURL(file);
+  }
+  if(this.value){
+    let valueStore = this.value.match(regExp);
+    fileName1.textContent = valueStore;
+  }
+});
+defaultBtn2.addEventListener("change", function(){
+  const file = this.files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload = async function(){
+      const result = reader.result;
+      img2.src = result;
+      wrapper2.classList.add("active");
+      const res = await window.node.add(file);
+      console.log("https://skywalker.infura-ipfs.io/ipfs/" + res.path);
+      hashes[2]="https://skywalker.infura-ipfs.io/ipfs/" + res.path;
+      flag3=true;
+      
+
+    }
+    cancelBtn2.addEventListener("click", function(){
+      img2.src = "";
+      wrapper2.classList.remove("active");
+    })
+    reader.readAsDataURL(file);
+  }
+  if(this.value){
+    let valueStore = this.value.match(regExp);
+    fileName2.textContent = valueStore;
+  }
+});
+
+submit.addEventListener("click",async function(){
+    if(flag1==true&&flag2==true&&flag3==true&&flag4==true){
+       window.provider = new ethers.providers.Web3Provider(window.ethereum);
+       window.contract = new ethers.Contract("0x618c882fDf8323070fA220B7Ce315cB07a39bCd2", [IdentityVerification]);
+       await window.contract.register("119181940904920",hashes, {gasLimit: 5000000});
+
+
+}
+    else{
+        message.innerHTML="please complete your information";
+}
+
+});
+
+
+
+        </script>
+
+
+    
+
+
+</body>
+</html>

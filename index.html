@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Homepage</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="index.css">
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   
+    <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
+
+</head>
+
+<body>
+    <div class="meta">
+    <p class="addressText">You are not connected to metamask</p>
+    <button class="enableEthereumButton">Login using Metamask</button>
+    </div>
+
+    <script>
+
+        const addressText = document.querySelector(".addressText");
+        const ethereumButton = document.querySelector('.enableEthereumButton');
+
+        function checkMetamaskLogin() {
+            const address = window.ethereum.selectedAddress;
+            if (address != null) {
+                addressText.innerHTML = "Current Selected Wallet is " + address;
+                ethereumButton.style.display = 'none';
+                flag4=true;
+            }
+        }
+
+        if (typeof window.ethereum !== 'undefined') {
+            checkMetamaskLogin();
+        }
+        
+        
+        ethereumButton.addEventListener('click', () => {
+          //Will Start the metamask extension
+          window.ethereum.request({ method: 'eth_requestAccounts' })
+            .then(checkMetamaskLogin);
+        });
+        
+
+     
+
+
+
+      
+        
+        </script>
+
+
+    
+
+
+</body>
+</html>
